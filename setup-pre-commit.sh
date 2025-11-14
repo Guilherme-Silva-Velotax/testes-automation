@@ -28,12 +28,24 @@ if [ -d "$PROJECT_PATH/venv" ]; then
     VENV_NAME="venv"
 elif [ -d "$PROJECT_PATH/.venv" ]; then
     VENV_NAME=".venv"
+elif [ -d "$PROJECT_PATH/env" ]; then
+    VENV_NAME="env"
+elif [ -d "$PROJECT_PATH/.env" ]; then
+    VENV_NAME=".env"
+fi
+
+# Cria pytest.ini se não existir
+PYTEST_INI="$PROJECT_PATH/pytest.ini"
+if [ ! -f "$PYTEST_INI" ]; then
+    echo "[pytest]" > "$PYTEST_INI"
+    echo "pythonpath = ." >> "$PYTEST_INI"
+    echo "Arquivo pytest.ini criado: $PYTEST_INI"
 fi
 
 # Detecta comando de teste
-TEST_CMD="pytest -v"
+TEST_CMD="python -m pytest -v"
 if [ -d "$PROJECT_PATH/tests" ]; then
-    TEST_CMD="pytest tests -v"
+    TEST_CMD="python -m pytest tests -v"
 elif [ -d "$PROJECT_PATH/test" ]; then
     TEST_CMD="python -m unittest discover -v"
 fi

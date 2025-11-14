@@ -27,7 +27,7 @@ if (-not (Test-Path $gitDir)) {
 
 # Detecta venv
 $venvName = $null
-$venvPaths = @("venv", ".venv")
+$venvPaths = @("venv", ".venv", "env", ".env")
 foreach ($venv in $venvPaths) {
     $venvPath = Join-Path $ProjectPath $venv
     if (Test-Path $venvPath) {
@@ -36,13 +36,24 @@ foreach ($venv in $venvPaths) {
     }
 }
 
+# Cria pytest.ini se não existir
+$pytestIniPath = Join-Path $ProjectPath "pytest.ini"
+if (-not (Test-Path $pytestIniPath)) {
+    $pytestIniContent = @"
+[pytest]
+pythonpath = .
+"@
+    $pytestIniContent | Out-File -FilePath $pytestIniPath -Encoding utf8
+    Write-Host "Arquivo pytest.ini criado: $pytestIniPath" -ForegroundColor Gray
+}
+
 # Detecta comando de teste
-$testCmd = "pytest -v"
+$testCmd = "python -m pytest -v"
 $testsDir = Join-Path $ProjectPath "tests"
 $testDir = Join-Path $ProjectPath "test"
 
 if (Test-Path $testsDir) {
-    $testCmd = "pytest tests -v"
+    $testCmd = "python -m pytest tests -v"
 } elseif (Test-Path $testDir) {
     $testCmd = "python -m unittest discover -v"
 }

@@ -1,62 +1,52 @@
 # Setup Pre-Commit Hook
 
-Scripts automatizados para configurar o hook pre-commit que roda testes automaticamente antes de cada commit.
+Executável automatizado para configurar o hook pre-commit que roda testes automaticamente antes de cada commit.
 
 ## Como Usar
 
-Os scripts aceitam o path do projeto como argumento. Se não fornecido, usam o diretório atual.
+### Windows
 
-### Windows (PowerShell)
-```powershell
-# Configurar no projeto atual
-.\setup-pre-commit.ps1
+1. Baixe o arquivo `setup-pre-commit.exe`
+2. Execute o arquivo (duplo clique)
+3. Digite o caminho do projeto Git ou pressione Enter para usar o diretório atual
+4. Pronto! O hook será configurado automaticamente
 
-# Configurar em outro projeto
-.\setup-pre-commit.ps1 C:\caminho\do\projeto
+**Exemplo:**
+```
+C:\projetos\meu-projeto> setup-pre-commit.exe
 ```
 
-### Linux/Mac/Git Bash
-```bash
-# Dar permissão de execução (apenas na primeira vez)
-chmod +x setup-pre-commit.sh
-
-# Configurar no projeto atual
-./setup-pre-commit.sh
-
-# Configurar em outro projeto
-./setup-pre-commit.sh /caminho/do/projeto
-```
-
-### Python (Qualquer plataforma)
-```bash
-# Configurar no projeto atual
-python setup_pre_commit.py
-
-# Configurar em outro projeto
-python setup_pre_commit.py /caminho/do/projeto
-```
+O executável funciona de forma standalone - não precisa de nenhum outro arquivo ou dependência instalada.
 
 ## O que faz?
 
-Após executar um dos scripts acima, toda vez que você fizer um `git commit`, os testes serão executados automaticamente:
+Após executar o `setup-pre-commit.exe`, toda vez que você fizer um `git commit`, os testes serão executados automaticamente:
 
 - Se os testes passarem → commit é realizado normalmente
 - Se os testes falharem → commit é cancelado
 
 ## Detecção Automática
 
-Os scripts detectam automaticamente:
+O executável detecta automaticamente:
 
 - **Comando de teste**: Procura por `pytest` ou `unittest` baseado na estrutura do projeto
-  - Se existe pasta `tests/` → usa `pytest tests -v`
+  - Se existe pasta `tests/` → usa `python -m pytest tests -v`
   - Se existe pasta `test/` → usa `python -m unittest discover -v`
-  - Caso contrário → usa `pytest -v`
+  - Caso contrário → usa `python -m pytest -v`
 
 - **Virtual Environment**: Procura por venv nas seguintes pastas (nessa ordem):
   - `venv`
   - `.venv`
   - `env`
   - `.env`
+
+- **pytest.ini**: Cria automaticamente o arquivo `pytest.ini` com `pythonpath = .` se não existir, garantindo que o pytest encontre os módulos na raiz do projeto.
+
+## Requisitos
+
+- Windows (o executável foi criado para Windows)
+- O projeto deve ser um repositório Git (ter pasta `.git`)
+- Python instalado no sistema (para rodar os testes, não para executar o .exe)
 
 ## Desabilitar Temporariamente
 
