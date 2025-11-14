@@ -27,7 +27,7 @@ if (-not (Test-Path $gitDir)) {
 
 # Detecta venv
 $venvName = $null
-$venvPaths = @("venv", ".venv", "env", ".env")
+$venvPaths = @("venv", ".venv")
 foreach ($venv in $venvPaths) {
     $venvPath = Join-Path $ProjectPath $venv
     if (Test-Path $venvPath) {

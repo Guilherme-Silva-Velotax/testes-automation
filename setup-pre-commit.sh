@@ -28,8 +28,6 @@ if [ -d "$PROJECT_PATH/venv" ]; then
     VENV_NAME="venv"
 elif [ -d "$PROJECT_PATH/.venv" ]; then
     VENV_NAME=".venv"
-elif [ -d "$PROJECT_PATH/env" ]; then
-    VENV_NAME="env"
 fi
 
 # Detecta comando de teste

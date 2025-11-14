@@ -37,7 +37,7 @@ def detect_venv_path(project_path):
     """Detecta o caminho da venv no projeto"""
     project_path = Path(project_path)
     
-    venv_paths = ["venv", ".venv", "env", ".env"]
+    venv_paths = ["venv", ".venv"]
     for venv_name in venv_paths:
         venv_dir = project_path / venv_name
         if venv_dir.exists() and venv_dir.is_dir():
